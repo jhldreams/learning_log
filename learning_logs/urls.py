@@ -15,6 +15,11 @@ urlpatterns = [
     # 显示特定主题的详细页面
     url(r'^topics/(?P<topic_id>[0-9]+)/$', views.topic, name='topic'),
 
-    # 用于添加新主题的网页
-    url(r'^new_topic/$', views.new_topic, name='new_topic')
+    # 用于添加新主题的页面
+    url(r'^new_topic/$', views.new_topic, name='new_topic'),
+
+    # 用于添加对应主题中新文章的页面
+
+    url(r'^new_entry/(?P<topic_id>[0-9]+)/$', views.new_entry, name='new_entry'),
+
 ]

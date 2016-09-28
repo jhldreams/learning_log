@@ -17,7 +17,7 @@
 
             <li>
 
-                <a href="{% url 'learning_logs:topic' topic.id %}">{{topic}}</a>
+                <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
             </li>
         {% empty %}
 
@@ -26,6 +26,7 @@
         {% endfor %}
     </ul>
 
+    <a href="{% url 'learning_logs:new_topic' %}">Add New Topic:</a>
 
     {% endblock content %}
 

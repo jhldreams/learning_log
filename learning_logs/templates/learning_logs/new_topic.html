@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    {% extends 'learning_logs/base.html %}
+    {% extends 'learning_logs/base.html' %}
 
     {% block content %}
 
@@ -15,9 +15,9 @@
 
     </p>
 
-    <form action="{5 url 'learning_logs:new_topic' % }" method="post">
+    <form action="{% url 'learning_logs:new_topic' %}" method="post">
         {% csrf_token %}
-        { form.as_p }
+        {{ form.as_p }}
 
         <button name="submit">add topic</button>
 

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import Topic
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from .forms import TopicForm
+from .forms import TopicForm, EntryForm
 
 
 # Create your views here.
@@ -34,7 +34,7 @@ def topic(request, topic_id):
     return render(request, 'learning_logs/topic.html', context)
 
 
-# 1、处理刚进入状态和提交表单后重定向到topics
+# 处理刚进入状态和提交表单后重定向到topics
 def new_topic(request):
     """添加新主题"""
     if request.method != 'POST':
@@ -48,3 +48,22 @@ def new_topic(request):
             return HttpResponseRedirect(reverse('learning_logs:topics'))
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
+
+
+def new_entry(request, topic_id):
+    """在特定主题中添加新条目"""
+    topic = Topic.objects.get(id=topic_id)
+
+    if request.method != 'POST':
+        # 未提交数据,创建空表单
+        form = EntryForm()
+    else:
+        # POST提交数据
+        form = EntryForm(data=request.POST)
+        if form.is_valid():
+            new_entry = form.save(commit=False)
+            new_entry.topic = topic
+            new_entry.save()
+            return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic_id]))
+    context = {'topic': topic, 'form': form}
+    return render(request, 'learning_logs/new_entry.html', context)
