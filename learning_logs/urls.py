@@ -22,4 +22,6 @@ urlpatterns = [
 
     url(r'^new_entry/(?P<topic_id>[0-9]+)/$', views.new_entry, name='new_entry'),
 
+    # 用于编辑现有的文章
+    url(r'^edit_entry/(?P<entry_id>[0-9]+)/$', views.edit_entry, name='edit_entry'),
 ]

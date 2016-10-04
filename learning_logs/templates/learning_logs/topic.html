@@ -25,7 +25,10 @@
                 <p>{{ entry.date_added|date:'M,d,Y H:i' }}</p>
                 <!-- 此行代码使用过滤器linebreaks将包含换行符的长文本转换为浏览器适应的格式-->
                 <p>{{ entry.text|linebreaks }}</p>
-
+                
+                <p>
+                    <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
+                </p>
             </li>
         {% empty %}
             <li>

@@ -1,7 +1,7 @@
 # coding:utf-8
 
 from django.shortcuts import render
-from .models import Topic
+from .models import Topic, Entry
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from .forms import TopicForm, EntryForm
@@ -67,3 +67,23 @@ def new_entry(request, topic_id):
             return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic_id]))
     context = {'topic': topic, 'form': form}
     return render(request, 'learning_logs/new_entry.html', context)
+
+
+def edit_entry(request, entry_id):
+    """编辑现有的文章"""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    print('Here')
+
+    if request.method != 'POST':
+        # 第一次请求，用当前的条目填充表单
+        form = EntryForm(instance=entry)
+    else:
+        # 修改后POST重新提交文章
+        form = EntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic.id]))
+    context = {'entry': entry, 'topic': topic, 'form': form}
+    return render(request, 'learning_logs/edit_entry.html', context)
