@@ -5,6 +5,7 @@ from .models import Topic, Entry
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from .forms import TopicForm, EntryForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -15,6 +16,7 @@ def index(request):
     return render(request, 'learning_logs/index.html')
 
 
+@login_required
 def topics(request):
     """显示所有的主题"""
 
@@ -25,6 +27,7 @@ def topics(request):
     return render(request, 'learning_logs/topics.html', context)
 
 
+@login_required
 def topic(request, topic_id):
     """显示特定主题的详细页面"""
     tp = Topic.objects.get(id=topic_id)
@@ -35,6 +38,7 @@ def topic(request, topic_id):
 
 
 # 处理刚进入状态和提交表单后重定向到topics
+@login_required
 def new_topic(request):
     """添加新主题"""
     if request.method != 'POST':
@@ -50,6 +54,7 @@ def new_topic(request):
     return render(request, 'learning_logs/new_topic.html', context)
 
 
+@login_required
 def new_entry(request, topic_id):
     """在特定主题中添加新条目"""
     topic = Topic.objects.get(id=topic_id)
@@ -69,12 +74,11 @@ def new_entry(request, topic_id):
     return render(request, 'learning_logs/new_entry.html', context)
 
 
+@login_required
 def edit_entry(request, entry_id):
     """编辑现有的文章"""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
-
-    print('Here')
 
     if request.method != 'POST':
         # 第一次请求，用当前的条目填充表单
