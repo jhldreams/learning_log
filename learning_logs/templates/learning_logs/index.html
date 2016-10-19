@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Frank Blog</title>
+    {% extends 'learning_logs/base.html' %}
+    {% block title %}
+        {% if user.is_authenticated %}
+            <title>{{ user.username }} Blog</title>
+        {% else %}
+            <title>Learning Blog</title>
+        {% endif %}
+
+    {% endblock title %}
 </head>
 <body>
-    {% extends 'learning_logs/base.html' %}
+
 
     {% block header %}
 
